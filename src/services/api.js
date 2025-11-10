@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // 1. Tentukan alamat Backend API Anda.
-const API_URL = 'http://localhost:5000/api'; 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 // 2. Buat "instance" axios
 const api = axios.create({
