@@ -9,13 +9,13 @@ const MainLayout = () => {
       <Navbar /> 
 
       {/* Area Konten */}
-      <main className="flex-grow container mx-auto p-4">
+      <main className="flex-grow">
         <Outlet />
       </main>
 
       {/* Footer Sederhana */}
-      <footer className="bg-gray-800 text-white p-4 text-center">
-        © 2025 MitraLink IKM
+      <footer className="bg-gray-50 text-gray-500 p-8 text-center border-t border-gray-200 mt-16">
+        © 2025 MitraLink IKM. All rights reserved.
       </footer>
 
     </div>

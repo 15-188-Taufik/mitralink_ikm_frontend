@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Impor "Memori" kita
+import { useAuth } from '../context/AuthContext'; 
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -38,15 +38,17 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto mt-10">
+    <div className="w-full max-w-md mx-auto px-4 py-16 sm:py-24">
       <form 
         onSubmit={handleSubmit} 
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4"
       >
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+          Login Akun
+        </h2>
         
         {error && (
-          <p className="bg-red-100 text-red-700 p-3 rounded mb-4 text-center">
+          <p className="bg-red-100 text-red-700 p-3 rounded mb-4 text-center text-sm">
             {error}
           </p>
         )}
@@ -61,7 +63,8 @@ const LoginPage = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="form-input block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            placeholder="email@anda.com"
           />
         </div>
         
@@ -75,7 +78,8 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            className="form-input block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            placeholder="••••••••"
           />
         </div>
         
@@ -83,7 +87,7 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400"
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400 transition-colors"
           >
             {loading ? 'Loading...' : 'Login'}
           </button>

@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+
+// Komponen ikon SVG sederhana untuk UI yang lebih baik
+const Icon = ({ path, className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={path} />
+  </svg>
+);
+
+const IkonDashboard = () => <Icon path="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6-4h.01M12 12h.01M15 15h.01M12 9h.01M9 15h.01M15 9h.01M9 12h.01" />;
+const IkonDirektori = () => <Icon path="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.523 5.754 18 7.5 18s3.332.523 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.523 18.246 18 16.5 18c-1.746 0-3.332.523-4.5 1.253" />;
+const IkonKebutuhan = () => <Icon path="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />;
+const IkonProfil = () => <Icon path="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />;
+const IkonProduk = () => <Icon path="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />;
+const IkonPendapatan = () => <Icon path="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />;
+const IkonLogout = () => <Icon path="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />;
+
 
 const DashboardLayout = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -13,56 +30,91 @@ const DashboardLayout = () => {
 
   const getNavLinkClass = ({ isActive }) => {
     return isActive
-      ? 'block py-2.5 px-4 rounded bg-blue-700 text-white'
-      : 'block py-2.5 px-4 rounded hover:bg-gray-700';
+      ? 'flex items-center gap-3 py-2.5 px-4 rounded bg-blue-700 text-white transition-colors'
+      : 'flex items-center gap-3 py-2.5 px-4 rounded text-gray-200 hover:bg-gray-700 hover:text-white transition-colors';
   };
+  
+  const NavLinkItem = ({ to, icon, label, end = false }) => (
+    <NavLink 
+      to={to} 
+      className={getNavLinkClass} 
+      onClick={() => setIsSidebarOpen(false)}
+      end={end}
+    >
+      {icon}
+      <span className="font-medium">{label}</span>
+    </NavLink>
+  );
+
+  const SidebarContent = () => (
+    <div className="flex flex-col flex-1 h-full">
+      <div className="p-4 border-b border-gray-700">
+        <h2 className="text-xl font-bold text-white">Dashboard IKM</h2>
+        <p className="text-sm text-gray-300 truncate" title={user.email}>
+          {user.email}
+        </p>
+      </div>
+      
+      <nav className="mt-6 px-2 space-y-2 flex-1">
+        <NavLinkItem to="/dashboard-ikm" icon={<IkonDashboard />} label="Dashboard" end />
+        <NavLinkItem to="/direktori" icon={<IkonDirektori />} label="Lihat Direktori" />
+        <NavLinkItem to="/dashboard-ikm/kebutuhan" icon={<IkonKebutuhan />} label="Papan Kebutuhan" />
+        <NavLinkItem to="/dashboard-ikm/profil" icon={<IkonProfil />} label="Edit Profil" />
+        <NavLinkItem to="/dashboard-ikm/produk" icon={<IkonProduk />} label="Kelola Produk" />
+        <NavLinkItem to="/dashboard-ikm/pendapatan" icon={<IkonPendapatan />} label="Lapor Pendapatan" />
+      </nav>
+
+      <div className="p-2 mt-auto">
+        <button
+          onClick={handleLogout}
+          className="w-full text-left flex items-center gap-3 py-2.5 px-4 rounded text-red-400 hover:bg-red-700 hover:text-white transition-colors"
+        >
+          <IkonLogout />
+          <span className="font-medium">Logout</span>
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <div className="flex min-h-screen">
+      {/* === Sidebar Overlay (Mobile) === */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        ></div>
+      )}
+
       {/* === SIDEBAR === */}
-      <aside className="w-64 bg-gray-800 text-gray-100 flex-shrink-0">
-        <div className="p-4">
-          <h2 className="text-xl font-bold">Dashboard {user.role}</h2>
-          <p className="text-sm">Selamat datang, {user.email}</p>
-        </div>
-
-        <nav className="mt-6 px-2">
-          <NavLink to="/dashboard-ikm" className={getNavLinkClass} end>
-            Dashboard Utama
-          </NavLink>
-          <NavLink to="/direktori" className={getNavLinkClass}>
-            Lihat Direktori Publik
-          </NavLink>
-
-          {/* === TAMBAHKAN LINK BARU INI === */}
-          <NavLink to="/dashboard-ikm/kebutuhan" className={getNavLinkClass}>
-            Papan Kebutuhan
-          </NavLink>
-          {/* =============================== */}
-
-          <NavLink to="/dashboard-ikm/profil" className={getNavLinkClass}>
-            Edit Profil
-          </NavLink>
-          <NavLink to="/dashboard-ikm/produk" className={getNavLinkClass}>
-            Kelola Produk
-          </NavLink>
-          <NavLink to="/dashboard-ikm/pendapatan" className={getNavLinkClass}>
-            Lapor Pendapatan
-          </NavLink>
-
-          <button
-            onClick={handleLogout}
-            className="w-full text-left mt-10 block py-2.5 px-4 rounded text-red-400 hover:bg-red-700 hover:text-white"
-          >
-            Logout
-          </button>
-        </nav>
+      <aside className={`fixed inset-y-0 left-0 w-64 bg-gray-800 text-gray-100 flex-shrink-0 z-50 transform
+                         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+                         md:relative md:translate-x-0 transition-transform duration-300 ease-in-out`}>
+        <SidebarContent />
       </aside>
 
       {/* === AREA KONTEN UTAMA === */}
-      <main className="flex-grow bg-gray-100">
-        <Outlet />
-      </main>
+      <div className="flex-grow flex flex-col">
+        {/* Top Bar (Mobile) */}
+        <header className="md:hidden bg-white shadow-md sticky top-0 z-30">
+          <div className="flex items-center justify-between p-4">
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="text-gray-600 p-2 rounded-md hover:bg-gray-100"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <span className="text-lg font-bold text-blue-600">MitraLink IKM</span>
+          </div>
+        </header>
+
+        {/* Konten Halaman */}
+        <main className="flex-grow bg-gray-50">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };
