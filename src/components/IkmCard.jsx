@@ -8,8 +8,8 @@ const IkmCard = ({ ikm }) => {
 
   return (
     // Efek hover
-    <div className="border rounded-lg shadow-lg overflow-hidden flex flex-col 
-                   transition-all duration-300 hover:shadow-xl hover:scale-[1.03]">
+    <div className="bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden flex flex-col 
+                   transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
       
       {/* Bagian Gambar */}
       <div className="w-full h-48 overflow-hidden">
@@ -21,24 +21,25 @@ const IkmCard = ({ ikm }) => {
       </div>
       
       {/* Bagian Teks */}
-      <div className="p-4 flex-grow">
+      <div className="p-5 flex-grow">
         {/* Kategori (jika ada) */}
         {ikm.kategori && (
           <span className="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-semibold tracking-wide">
             {ikm.kategori}
           </span>
         )}
-        <h3 className="text-xl font-bold mt-2 mb-1 truncate">{ikm.nama_usaha}</h3>
-        <p className="text-sm text-gray-600">{ikm.alamat || 'Alamat belum diisi'}</p>
+        <h3 className="text-xl font-bold mt-2 mb-1 truncate text-gray-900">{ikm.nama_usaha}</h3>
+        {/* line-clamp-2 membatasi alamat jadi 2 baris */}
+        <p className="text-sm text-gray-600 line-clamp-2">{ikm.alamat || 'Alamat belum diisi'}</p>
       </div>
 
       {/* Bagian Link/Tombol */}
-      <div className="p-4 bg-gray-50 border-t">
+      <div className="p-5 bg-gray-50 border-t border-gray-100">
         <Link 
           to={`/direktori/${ikm.profile_id}`} 
-          className="text-blue-600 hover:text-blue-800 font-semibold text-sm"
+          className="text-blue-600 hover:text-blue-800 font-semibold text-sm group"
         >
-          Lihat Detail &rarr;
+          Lihat Detail <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
         </Link>
       </div>
     </div>
