@@ -90,7 +90,8 @@ const DashboardIndustryLayout = () => {
       </aside>
 
       {/* === AREA KONTEN UTAMA === */}
-      <div className="flex-grow flex flex-col">
+      {/* [PERBAIKAN 1]: Tambahkan 'min-w-0' untuk mengizinkan konten menyusut */}
+      <div className="flex-grow flex flex-col min-w-0">
         {/* Top Bar (Mobile) */}
         <header className="md:hidden bg-white shadow-md sticky top-0 z-30">
           <div className="flex items-center justify-between p-4">

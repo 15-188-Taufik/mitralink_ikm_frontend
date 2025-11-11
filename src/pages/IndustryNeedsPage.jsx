@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import industryService from '../services/industryService';
-import { Link } from 'react-router-dom'; // <-- Impor Link
+import { Link } from 'react-router-dom';
 
 const IndustryNeedsPage = () => {
   // State untuk daftar kebutuhan
@@ -19,7 +19,7 @@ const IndustryNeedsPage = () => {
     try {
       const response = await industryService.getMyNeeds();
       setNeeds(response.data);
-    } catch (error) {
+    } catch (error){
       console.error('Gagal mengambil kebutuhan', error);
       setMessage('Gagal mengambil daftar kebutuhan.');
     } finally {
@@ -57,11 +57,13 @@ const IndustryNeedsPage = () => {
 
 
   return (
-    <div className="p-8">
+    // [PERBAIKAN 2A]: Padding halaman responsif
+    <div className="p-4 md:p-8">
       <h1 className="text-3xl font-bold mb-6">Kelola Kebutuhan (Tender)</h1>
 
       {/* === FORMULIR POSTING KEBUTUHAN === */}
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded p-8 mb-8">
+      {/* [PERBAIKAN 2B]: Padding form responsif */}
+      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded p-4 md:p-8 mb-8">
         <h2 className="text-2xl font-bold mb-4">Posting Kebutuhan Baru</h2>
         {message && (
           <p className={`p-3 rounded mb-4 ${message.startsWith('Gagal') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
@@ -86,24 +88,25 @@ const IndustryNeedsPage = () => {
       {loading ? (
         <p>Loading daftar kebutuhan...</p>
       ) : (
-        <div className="bg-white shadow-md rounded p-8">
+        // [PERBAIKAN 2C]: Padding daftar responsif
+        <div className="bg-white shadow-md rounded p-4 md:p-8">
           {needs.length === 0 ? (
             <p>Anda belum mem-posting kebutuhan apapun.</p>
           ) : (
             <ul className="divide-y divide-gray-200">
               {needs.map(need => (
-                // Bungkus 'li' dengan 'Link' agar bisa diklik
                 <Link 
                   key={need.need_id}
                   to={`/dashboard-industri/kebutuhan/${need.need_id}`}
                   className="block hover:bg-gray-50 p-4 -m-4 rounded-lg"
                 >
                   <li className="py-4">
-                    <div className="flex justify-between items-center">
-                      <h3 className="text-lg font-semibold text-blue-700 hover:underline">{need.judul_kebutuhan}</h3>
-                      <span className={`text-sm font-medium px-3 py-1 rounded-full ${
+                    {/* [PERBAIKAN 2D (INTI)]: flex-col di mobile, sm:flex-row di layar lebih besar */}
+                    <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
+                      <h3 className="text-lg font-semibold text-blue-700 hover:underline truncate">{need.judul_kebutuhan}</h3>
+                      <span className={`text-sm font-medium px-3 py-1 rounded-full flex-shrink-0 ${
                         need.status === 'open' ? 'bg-blue-100 text-blue-800' : 
-                        need.status === 'review' ? 'bg-yellow-100 text-yellow-800' : // <-- Status baru
+                        need.status === 'review' ? 'bg-yellow-100 text-yellow-800' : 
                         'bg-gray-100 text-gray-800'
                       }`}>
                         Status: {need.status}
