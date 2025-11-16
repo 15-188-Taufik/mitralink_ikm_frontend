@@ -30,7 +30,8 @@ const RegisterPage = () => {
 
     try {
       await authService.register(data);
-      setSuccess('Registrasi berhasil! Anda akan diarahkan ke halaman login.');
+      // --- PERUBAHAN PESAN SUKSES ---
+      setSuccess('Registrasi berhasil! Silakan cek email Anda untuk verifikasi. Anda akan diarahkan ke halaman login.');
       setTimeout(() => {
         navigate('/login');
       }, 3000);

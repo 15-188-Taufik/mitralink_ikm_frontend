@@ -107,7 +107,9 @@ const DashboardAdminLayout = () => {
         </header>
 
         {/* Konten Halaman */}
-        <main className="flex-grow bg-gray-50">
+        {/* --- PERUBAHAN DI SINI --- */}
+        <main className="flex-grow bg-gray-100">
+        {/* --- AKHIR PERUBAHAN --- */}
           <Outlet />
         </main>
       </div>

@@ -7,9 +7,13 @@ const IkmCard = ({ ikm }) => {
   const foto = ikm.foto_url || 'https://via.placeholder.com/400x300.png?text=Foto+IKM';
 
   return (
-    // Efek hover
-    <div className="bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden flex flex-col 
-                   transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+    // --- PERUBAHAN 1: 'div' terluar diubah menjadi 'Link' ---
+    // Semua style dari div dipindahkan ke Link ini
+    <Link 
+      to={`/direktori/${ikm.profile_id}`} 
+      className="bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden flex flex-col 
+                 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 group" // Tambahkan 'group'
+    >
       
       {/* Bagian Gambar */}
       <div className="w-full h-48 overflow-hidden">
@@ -34,15 +38,18 @@ const IkmCard = ({ ikm }) => {
       </div>
 
       {/* Bagian Link/Tombol */}
-      <div className="p-5 bg-gray-50 border-t border-gray-100">
-        <Link 
-          to={`/direktori/${ikm.profile_id}`} 
-          className="text-blue-600 hover:text-blue-800 font-semibold text-sm group"
+      {/* Tambahkan 'mt-auto' agar footer ini selalu di bawah */}
+      <div className="p-5 bg-gray-50 border-t border-gray-100 mt-auto"> 
+        {/* --- PERUBAHAN 2: 'Link' di dalam sini diubah menjadi 'span' --- */}
+        {/* Teks ini sekarang hanya hiasan, karena link-nya sudah ada di 'group' */}
+        <span 
+          className="text-blue-600 group-hover:text-blue-800 font-semibold text-sm"
         >
-          Lihat Detail <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
-        </Link>
+          Lihat Detail <span className="transition-transform group-hover:translate-x-1 inline-block">&rarr;</span>
+        </span>
+        {/* --- AKHIR PERUBAHAN 2 --- */}
       </div>
-    </div>
+    </Link> // --- AKHIR PERUBAHAN 1 ---
   );
 };
 

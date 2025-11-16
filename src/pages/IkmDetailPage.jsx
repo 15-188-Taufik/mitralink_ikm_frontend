@@ -56,34 +56,47 @@ const IkmDetailPage = () => {
               <span className="font-bold">Alamat:</span> {ikm.alamat || 'Belum diisi'}
             </p>
 
+            {/* --- PERUBAHAN: E-COMMERCE TAMPIL UNTUK PUBLIK --- */}
+            <p className="mt-4">
+              <span className="font-bold">E-commerce:</span> 
+              {ikm.link_ecommerce ? (
+                <a 
+                  href={ikm.link_ecommerce} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-blue-600 hover:underline ml-1"
+                >
+                  Kunjungi Toko
+                </a>
+              ) : ' Belum diisi'}
+            </p>
+            {/* --- AKHIR PERUBAHAN --- */}
+
+
             {/* === MODEL HIBRIDA (RAHASIA) === */}
             <div className="bg-gray-100 p-4 rounded-lg mt-6">
-              <h3 className="text-lg font-semibold mb-2">Kontak & Info Kemitraan</h3>
-              {user && user.role === 'industri' ? (
-                // TAMPILKAN INI JIKA USER ADALAH 'INDUSTRI'
+              <h3 className="text-lg font-semibold mb-2">Kontak Kemitraan</h3>
+              
+              {/* --- PERUBAHAN: Cek 'user' (login) saja, bukan role 'industri' --- */}
+              {user ? (
+                // TAMPILKAN INI JIKA USER SUDAH LOGIN (ROLE APAPUN)
                 <div>
                   <p>
                     <span className="font-bold">No. HP:</span> {ikm.no_hp || 'Belum diisi'}
                   </p>
-                  <p>
-                    <span className="font-bold">E-commerce:</span> 
-                    {ikm.link_ecommerce ? (
-                      <a href={ikm.link_ecommerce} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                        Kunjungi Toko
-                      </a>
-                    ) : ' Belum diisi'}
-                  </p>
+                  {/* Link E-commerce sudah dipindah ke luar */}
                 </div>
               ) : (
                 // TAMPILKAN INI JIKA PENGUNJUNG BIASA ATAU IKM
                 <div className="text-center p-4 bg-gray-200 rounded">
-                  <p className="font-medium">Kontak sensitif hanya terlihat oleh mitra Industri.</p>
+                  <p className="font-medium">Kontak No. HP hanya terlihat oleh mitra yang sudah login.</p>
                   <p className="text-sm">
                     Silakan <Link to="/login" className="text-blue-600 font-bold">Login</Link> atau 
-                    <Link to="/register" className="text-blue-600 font-bold"> Daftar</Link> sebagai Industri untuk melihat.
+                    <Link to="/register" className="text-blue-600 font-bold"> Daftar</Link> untuk melihat.
                   </p>
                 </div>
               )}
+              {/* --- AKHIR PERUBAHAN --- */}
             </div>
           </div>
         </div>

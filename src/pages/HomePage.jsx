@@ -2,6 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ikmService from '../services/ikmService'; // Impor "telepon"
 import IkmCard from '../components/IkmCard'; // Impor "kartu" IKM kita
+import { motion } from 'framer-motion'; // <-- 1. Impor motion
+
+// --- 2. Tambahkan varian animasi ---
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1, y: 0,
+    transition: { type: 'spring', stiffness: 100 }
+  },
+};
+// --- Akhir penambahan ---
+
 
 const HomePage = () => {
   const [unggulan, setUnggulan] = useState([]);
@@ -23,9 +45,8 @@ const HomePage = () => {
   }, []); 
 
   return (
-    // Hapus <div className="container mx-auto p-4"> yang membungkus semuanya
     <>
-      {/* === Hero Section (Full Width) === */}
+      {/* === (TETAP ADA) Hero Section (Full Width) === */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-2xl">
         {/* Container untuk konten di dalam Hero */}
         <div className="container mx-auto max-w-7xl px-6 py-16 md:py-24 text-center">
@@ -55,8 +76,55 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* === Bagian IKM Unggulan (Dengan Container Sendiri) === */}
-      <div className="container mx-auto max-w-7xl px-6 py-16 md:py-24">
+      {/* === (BARU) Bagian 3 Keunggulan === */}
+      <section className="container mx-auto text-center max-w-5xl py-16 px-5">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
+          Keunggulan MitraLink
+        </h2>
+            
+        <motion.div 
+          className="flex justify-center flex-wrap gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible" // Animasi saat di-scroll ke tampilan
+          viewport={{ once: true, amount: 0.3 }} // Hanya animasi sekali
+        >
+          {/* Highlight Card 1 */}
+          <motion.div 
+            className="bg-white rounded-xl shadow-lg p-7 w-72"
+            variants={itemVariants}
+            whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)" }}
+          >
+            {/* Saya ganti 'text-primary' menjadi 'text-blue-600' agar sesuai tema */}
+            <h3 className="text-xl font-semibold text-blue-600 mb-2">🤝 Kemitraan Strategis</h3>
+            <p className="text-gray-600">Hubungkan IKM Anda dengan Industri besar terverifikasi.</p>
+          </motion.div>
+          {/* Highlight Card 2 */}
+          <motion.div 
+            className="bg-white rounded-xl shadow-lg p-7 w-72"
+            variants={itemVariants}
+            whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)" }}
+          >
+            <h3 className="text-xl font-semibold text-blue-600 mb-2">📈 Direktori Unggulan</h3>
+            <p className="text-gray-600">Tampilkan produk dan profil usaha Anda di direktori kami.</p>
+          </motion.div>
+          {/* Highlight Card 3 */}
+          <motion.div 
+            className="bg-white rounded-xl shadow-lg p-7 w-72"
+            variants={itemVariants}
+            whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)" }}
+          >
+            <h3 className="text-xl font-semibold text-blue-600 mb-2">💡 Platform Digital</h3>
+            <p className="text-gray-600">Manfaatkan platform digital untuk lapor pendapatan & cari mitra.</p>
+          </motion.div>
+        </motion.div>
+      </section>
+      {/* === Akhir Bagian Baru === */}
+
+
+      {/* === (TETAP ADA) Bagian IKM Unggulan === */}
+      {/* Saya kurangi padding atasnya sedikit (pt-8) agar tidak terlalu jauh */}
+      <div className="container mx-auto max-w-7xl px-6 pt-8 pb-16 md:pt-12 md:pb-24">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
           IKM Unggulan Terverifikasi
         </h2>

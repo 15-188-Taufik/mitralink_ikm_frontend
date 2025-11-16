@@ -30,9 +30,19 @@ const Navbar = () => {
           
           {/* Logo / Judul Website */}
           <div className="flex-shrink-0">
-            <Link to="/" className="text-white text-xl font-bold" onClick={() => setIsMobileMenuOpen(false)}>
-              MitraLink IKM
+            {/* --- PERUBAHAN DI SINI --- */}
+            <Link 
+              to="/" 
+              className="flex items-center gap-2 text-white text-xl font-bold" 
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {/* Pastikan Anda menaruh logo.png di folder /public/logo.png */}
+              <img className="h-8 w-auto" src="/logo.png" alt="MitraLink Logo" />
+              <span>
+                MitraLink IKM
+              </span>
             </Link>
+            {/* --- AKHIR PERUBAHAN --- */}
           </div>
 
           {/* Menu Navigasi (Desktop) */}
